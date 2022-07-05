@@ -20,6 +20,8 @@ console.log("뷰 엔진이 ejs로 설정되었습니다.");
 
 var employment = require("./routers/employment");
 var router = express.Router();
+employment.init(pool);
+
 router.route("/process/EmploymentList").get(employment.employmentList);
 app.use("/", router); // 라우터 객체 등록
 

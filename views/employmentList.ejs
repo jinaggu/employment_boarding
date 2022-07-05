@@ -9,7 +9,19 @@
     <br />
     <div>
       <ul>
-        <%=employ%>
+        <%for (var i=0; i < result.length; i++) { var COM_ID = result[i].COM_ID;
+        var COM_NAME = result[i].COM_NAME; var COM_COUNTRY =
+        result[i].COM_COUNTRY; var COM_REGION = result[i].COM_REGION; var
+        EMP_POSITION = result[i].EMP_POSITION; var EMP_MONEY =
+        result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; %>
+        <li>채용공고ID : <%=COM_ID%></li>
+        <li>회사명 : <%=COM_NAME%></li>
+        <li>국가 : <%=COM_COUNTRY%></li>
+        <li>지역 : <%=COM_REGION%></li>
+        <li>채용포지션 : <%=EMP_POSITION%></li>
+        <li>채용보상금 : <%=EMP_MONEY%></li>
+        <li>사용기술 : <%=USE_TECH%></li>
+        <% } %>
       </ul>
     </div>
     <a href="/main.html">홈으로 돌아가기</a>
