@@ -21,7 +21,7 @@ console.log("뷰 엔진이 ejs로 설정되었습니다.");
 var emplRouter = require("./routers/employment");
 
 // router.route("EmploymentList").get(employment.employmentList);
-app.use("/employment", emplRouter); // 라우터 객체 등록 3
+app.use("/employment", emplRouter); // 라우터 객체 등록 4
 
 http.createServer(app).listen(app.get("port"), function () {
   console.log("서버가 시작되었습니다. 포트 : " + app.get("port"));
