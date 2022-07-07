@@ -5,7 +5,6 @@
     <title>채용공고</title>
   </head>
   <body>
-    <div>
       <ul>
         <%for (var i=0; i < result.length; i++) { var COM_ID = result[i].COM_ID;
         var COM_NAME = result[i].COM_NAME; var COM_COUNTRY =
@@ -13,20 +12,30 @@
         EMP_POSITION = result[i].EMP_POSITION; var EMP_MONEY =
         result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; var EMP_CONTENT
         = result[i].EMP_CONTENT; %>
+        <h2 hidden>채용공고ID : <%=COM_ID%></h2>
+        <li>회사명 : <input type="text" value="<%=COM_NAME%>" disabled /></li>
         <li>
-          <h2>채용공고ID : <%=COM_ID%> / 회사명 : <%=COM_NAME%></h2>
+          국가 : <input type="text" value="<%=COM_COUNTRY%>" disabled /> / 지역
+          : <input type="text" value="<%=COM_REGION%>" disabled />
         </li>
-        <li>국가 : <%=COM_COUNTRY%> / 지역 : <%=COM_REGION%></li>
-        <li>채용포지션 : <%=EMP_POSITION%></li>
-        <li>채용보상금 : <%=EMP_MONEY%></li>
-        <li>사용기술 : <%=USE_TECH%></li>
-        <li>채용내용 : <%=EMP_CONTENT%></li>
-        <hr />
+        <li>
+          채용포지션 : <input type="text" value="<%=EMP_POSITION%>" disabled />
+        </li>
+        <li>
+          채용보상금 : <input type="text" value="<%=EMP_MONEY%>" disabled />
+        </li>
+        <li>사용기술 : <input type="text" value="<%=USE_TECH%>" disabled /></li>
+        <li>
+          채용내용 :
+          <textarea cols="50" rows="10" disabled><%=EMP_CONTENT%></textarea>
+        </li>
         <% } %>
       </ul>
     </div>
-    <button type="button" onclick="location.href='#'">수정</button>
-    <button type="button" onclick="location.href='#'">삭제</button>
-    <a href="/main.html">홈으로 돌아가기</a>
+    <button type="button" onclick="location.href='/employment/update_empl_list'">수정</button>
+    <button type="button" onclick="location.href='/employment/delete_empl_list'">삭제</button>
+    <button type="button" onclick="location.href='/main.html'">
+      홈으로 돌아가기
+    </button>
   </body>
 </html>
