@@ -5,27 +5,28 @@
     <title>채용공고</title>
   </head>
   <body>
-    <h1>채용공고 리스트</h1>
-    <br />
     <div>
       <ul>
         <%for (var i=0; i < result.length; i++) { var COM_ID = result[i].COM_ID;
         var COM_NAME = result[i].COM_NAME; var COM_COUNTRY =
         result[i].COM_COUNTRY; var COM_REGION = result[i].COM_REGION; var
         EMP_POSITION = result[i].EMP_POSITION; var EMP_MONEY =
-        result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; %>
+        result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; var EMP_CONTENT
+        = result[i].EMP_CONTENT; %>
         <li>
-          <a href="/employment/employment/<%=COM_ID%>"
-            >채용공고ID : <%=COM_ID%> / 회사명 : <%=COM_NAME%></a
-          >
+          <h2>채용공고ID : <%=COM_ID%> / 회사명 : <%=COM_NAME%></h2>
         </li>
+        <li>국가 : <%=COM_COUNTRY%> / 지역 : <%=COM_REGION%></li>
         <li>채용포지션 : <%=EMP_POSITION%></li>
         <li>채용보상금 : <%=EMP_MONEY%></li>
         <li>사용기술 : <%=USE_TECH%></li>
+        <li>채용내용 : <%=EMP_CONTENT%></li>
         <hr />
         <% } %>
       </ul>
     </div>
+    <button type="button" onclick="location.href='#'">수정</button>
+    <button type="button" onclick="location.href='#'">삭제</button>
     <a href="/main.html">홈으로 돌아가기</a>
   </body>
 </html>

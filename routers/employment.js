@@ -1,8 +1,6 @@
-var pool;
-var init = (p) => {
-  console.log("employment.js init 호출됨.");
-  pool = p;
-};
+var express = require("express");
+var router = express.Router();
+var pool = require("../database/db-config");
 
 var emplList = (callback) => {
   // 애로우패턴
@@ -36,18 +34,49 @@ var emplList = (callback) => {
   });
 };
 
-var employmentList = (req, res) => {
+var empl_detail = (com_id, callback) => {
+  console.log("emplList 호출됨.");
+  pool.getConnection(function (err, conn) {
+    var exec = conn.query(
+      "SELECT * FROM EMPLOYMENT_LIST a, COMPANY b WHERE a.COM_ID = b.COM_ID AND a.COM_ID = ?",
+      com_id,
+      function (err, rows) {
+        conn.release(); // 반드시 해제해야 합니다.
+        console.log("실행 대상 sql : " + exec.sql);
+        if (rows.length > 0) {
+          callback(null, rows);
+        } else {
+          callback(err, null);
+        }
+      }
+    );
+  });
+};
+
+router.get("/employments", (req, res) => {
   console.log("/process/EmploymentList 호출됨.");
   res.writeHead("200", { "Content-Type": "text/html;charset=utf8" });
-  var context;
+  var context, com_id;
   emplList(function (err, result) {
-    console.log(res);
+    console.log(result);
     context = { result: result };
     req.app.render("employmentList", context, function (err, html) {
       res.end(html);
     });
   });
-};
+});
 
-module.exports.init = init;
-module.exports.employmentList = employmentList;
+router.get("/employment/:com_id", (req, res) => {
+  var com_id = req.params.com_id;
+  var context;
+  console.log("com_id : " + com_id);
+  empl_detail(com_id, function (err, result) {
+    console.log("result : " + result);
+    context = { result: result };
+    req.app.render("employment_list", context, function (err, html) {
+      res.end(html);
+    });
+  });
+});
+
+module.exports = router;

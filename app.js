@@ -18,12 +18,10 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 console.log("뷰 엔진이 ejs로 설정되었습니다.");
 
-var employment = require("./routers/employment");
-var router = express.Router();
-employment.init(pool);
+var emplRouter = require("./routers/employment");
 
-router.route("/process/EmploymentList").get(employment.employmentList);
-app.use("/", router); // 라우터 객체 등록
+// router.route("EmploymentList").get(employment.employmentList);
+app.use("/employment", emplRouter); // 라우터 객체 등록
 
 http.createServer(app).listen(app.get("port"), function () {
   console.log("서버가 시작되었습니다. 포트 : " + app.get("port"));
