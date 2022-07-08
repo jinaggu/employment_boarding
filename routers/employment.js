@@ -81,11 +81,22 @@ var add_employment = (
       "INSERT INTO COMPANY (com_id, com_name, com_country,com_region) VALUES (?,?,?,?)";
     var param = [com_id, com_name, com_country, com_region];
 
+    var sql2 =
+      "INSERT INTO EMPLOYMENT_LIST (com_id, emp_position, emp_money, emp_content,use_tech) VALUES (?,?,?,?,?)";
+    var param2 = [com_id, emp_position, emp_money, emp_content, use_tech];
+
     console.log("sql : " + sql);
+    console.log("sql : " + sql2);
     // sql문을 실행합니다.
     var exec = conn.query(sql, param, function (err, result) {
       if (err) throw err;
       console.log("행추가 성공");
+      console.log("sql : " + exec);
+      console.log("result : " + result);
+    });
+    conn.query(sql2, param2, function (err, result) {
+      if (err) throw err;
+      console.log("행추가 성공2");
       console.log("sql : " + exec);
       console.log("result : " + result);
       callback(null, result);
