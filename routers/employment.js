@@ -53,6 +53,46 @@ var empl_detail = (com_id, callback) => {
   });
 };
 
+var add_employment = (
+  com_id,
+  com_name,
+  emp_position,
+  emp_money,
+  emp_content,
+  use_tech,
+  com_country,
+  com_region,
+  callback
+) => {
+  console.log("add_employment 호출됨.");
+  // 커넥션 풀에서 연결 객체를 가져옵니다.
+  pool.getConnection(function (err, conn) {
+    if (err) {
+      if (conn) {
+        conn.release(); // 반드시 해제해야함.
+      }
+
+      callback(err, null);
+    }
+    console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+    // ?를 넣으면 배열로 받는다.
+    var sql =
+      "INSERT INTO COMPANY (com_id, com_name, com_country,com_region) VALUES (?,?,?,?)";
+    var param = [com_id, com_name, com_country, com_region];
+
+    console.log("sql : " + sql);
+    // sql문을 실행합니다.
+    var exec = conn.query(sql, param, function (err, result) {
+      if (err) throw err;
+      console.log("행추가 성공");
+      console.log("sql : " + exec);
+      console.log("result : " + result);
+      callback(null, result);
+    });
+  });
+};
+
 router.get("/employments", (req, res) => {
   console.log("/process/EmploymentList 호출됨.");
   res.writeHead("200", { "Content-Type": "text/html;charset=utf8" });
@@ -77,6 +117,37 @@ router.get("/employment/:com_id", (req, res) => {
       res.end(html);
     });
   });
+});
+
+router.post("/addEmploymentList", (req, res) => {
+  console.log("addEmploymentList 호출됨.");
+  var com_id = req.body.com_id;
+  var com_name = req.body.com_name;
+  var com_country = req.body.com_country;
+  var com_region = req.body.com_region;
+  var emp_position = req.body.emp_position;
+  var emp_momey = req.body.emp_momey;
+  var use_tech = req.body.use_tech;
+  var emp_content = req.body.emp_content;
+
+  // pool 객체가 초기화 된 경우, add_employment함수를 호출하여 채용공고 추가
+  if (pool) {
+    add_employment(
+      com_id,
+      com_name,
+      com_country,
+      com_region,
+      emp_position,
+      emp_momey,
+      use_tech,
+      emp_content,
+      function (err, addEmployment) {
+        res.app.render("add_empl_success", function (err, html) {
+          res.end(html);
+        });
+      }
+    );
+  }
 });
 
 module.exports = router;

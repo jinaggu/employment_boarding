@@ -6,30 +6,31 @@
   </head>
   <body>
     <h2>채용공고 등록</h2>
-    <form>
+    <form method="post" action="/employment/addEmploymentList">
       <ul>
-        <li>회사아이디 : <input type="text" value="" /></li>
-        <li>회사명 : <input type="text" value="" /></li>
+        <li>회사아이디 : <input type="text" name="com_id"/></li>
+        <li>회사명 : <input type="text" name="com_name"/></li>
         <li>
-          국가 : <input type="text" value=""/> / 지역
-          : <input type="text" value=""  />
+          국가 : <input type="text" name="com_country" /> / 지역
+          : <input type="text" value="" name="com_region" />
         </li>
         <li>
-          채용포지션 : <input type="text" value=""  />
+          채용포지션 : <input type="text" name="emp_position"/>
         </li>
         <li>
-          채용보상금 : <input type="text" value=""  />
+          채용보상금 : <input type="text" name="emp_momey"/>
         </li>
-        <li>사용기술 : <input type="text" value=""  /></li>
+        <li>사용기술 : <input type="text" name="use_tech"/></li>
         <li>
           채용내용 :
-          <textarea cols="50" rows="10" ></textarea>
+          <textarea cols="50" rows="10" name="emp_content"></textarea>
         </li>
       </ul>
+      <button type="submit">등록</button>
+      <button type="button" onclick="location.href='/main.html'">
     </form>
     </div>
-    <button type="button" onclick="location.href='/employment/update_empl_list'">등록</button>
-    <button type="button" onclick="location.href='/main.html'">
+    
       홈으로 돌아가기
     </button>
   </body>

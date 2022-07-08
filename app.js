@@ -16,6 +16,7 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.set("view engine", "ejs");
+app.engine("html", require("ejs").renderFile);
 console.log("뷰 엔진이 ejs로 설정되었습니다.");
 
 var emplRouter = require("./routers/employment");
