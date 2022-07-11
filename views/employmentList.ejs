@@ -13,9 +13,10 @@
         var COM_NAME = result[i].COM_NAME; var COM_COUNTRY =
         result[i].COM_COUNTRY; var COM_REGION = result[i].COM_REGION; var
         EMP_POSITION = result[i].EMP_POSITION; var EMP_MONEY =
-        result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; %>
+        result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; var EMPL_ID =
+        result[i].EMPLOYMENT_ID%>
         <li>
-          <a href="/employment/employment/<%=COM_ID%>"
+          <a href="/employment/employment/<%=EMPL_ID%>"
             >채용공고ID : <%=COM_ID%> / 회사명 : <%=COM_NAME%></a
           >
         </li>

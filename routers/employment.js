@@ -34,12 +34,12 @@ var emplList = (callback) => {
   });
 };
 
-var empl_detail = (com_id, callback) => {
+var empl_detail = (empl_id, callback) => {
   console.log("emplList 호출됨.");
   pool.getConnection(function (err, conn) {
     var exec = conn.query(
-      "SELECT * FROM EMPLOYMENT_LIST a, COMPANY b WHERE a.COM_ID = b.COM_ID AND a.COM_ID = ?",
-      com_id,
+      "SELECT * FROM EMPLOYMENT_LIST a, COMPANY b WHERE a.COM_ID = b.COM_ID AND a.EMPLOYMENT_ID = ?",
+      empl_id,
       function (err, rows) {
         conn.release(); // 반드시 해제해야 합니다.
         console.log("실행 대상 sql : " + exec.sql);
@@ -104,6 +104,54 @@ var add_employment = (
   });
 };
 
+var update_employment = function (
+  com_id,
+  com_name,
+  com_country,
+  com_region,
+  emp_position,
+  emp_money,
+  use_tech,
+  empl_id,
+  emp_content,
+  callback
+) {
+  console.log("update_employment 호출됨.");
+
+  pool.getConnection(function (err, conn) {
+    if (err) {
+      if (conn) {
+        conn.release(); // 반드시 해제해야함.
+      }
+
+      callback(err, null);
+    }
+    console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+    // ?를 넣으면 배열로 받는다.
+    var sql =
+      "UPDATE COMPANY SET com_name = ?, com_country = ?, com_region = ? WHERE com_id = ?";
+    var param = [com_name, com_country, com_region, com_id];
+
+    var sql2 =
+      "UPDATE EMPLOYMENT_LIST SET EMP_POSITION = ?, EMP_MONEY = ?, EMP_CONTENT = ?, USE_TECH = ? WHERE EMPLOYMENT_ID = ?";
+    var param2 = [emp_position, emp_money, emp_content, use_tech, empl_id];
+
+    conn.query(sql, param, function (err, result) {
+      if (err) throw err;
+      console.log("행추가 성공");
+      console.log("result : " + result);
+    });
+
+    conn.query(sql2, param2, function (err, result) {
+      if (err) throw err;
+      console.log("행추가 성공2");
+      console.log("result : " + result);
+      callback(null, result);
+    });
+  });
+};
+
 router.get("/employments", (req, res) => {
   console.log("/process/EmploymentList 호출됨.");
   res.writeHead("200", { "Content-Type": "text/html;charset=utf8" });
@@ -117,11 +165,11 @@ router.get("/employments", (req, res) => {
   });
 });
 
-router.get("/employment/:com_id", (req, res) => {
-  var com_id = req.params.com_id;
+router.get("/employment/:empl_id", (req, res) => {
+  var empl_id = req.params.empl_id;
   var context;
-  console.log("com_id : " + com_id);
-  empl_detail(com_id, function (err, result) {
+  console.log("empl_id : " + empl_id);
+  empl_detail(empl_id, function (err, result) {
     console.log("result : " + result);
     context = { result: result };
     req.app.render("employment_list", context, function (err, html) {
@@ -151,6 +199,39 @@ router.post("/addEmploymentList", (req, res) => {
       emp_position,
       emp_momey,
       use_tech,
+      emp_content,
+      function (err, addEmployment) {
+        res.app.render("add_empl_success", function (err, html) {
+          res.end(html);
+        });
+      }
+    );
+  }
+});
+
+// 채용공고 수정
+router.post("/updateEmplList/:employment_id", (req, res) => {
+  console.log("updateEmplList 호출됨.");
+  var com_id = req.body.com_id;
+  var com_name = req.body.com_name;
+  var com_country = req.body.com_country;
+  var com_region = req.body.com_region;
+  var emp_position = req.body.emp_position;
+  var emp_money = req.body.emp_money;
+  var use_tech = req.body.use_tech;
+  var emp_content = req.body.emp_content;
+  var empl_id = req.params.employment_id;
+
+  if (pool) {
+    update_employment(
+      com_id,
+      com_name,
+      com_country,
+      com_region,
+      emp_position,
+      emp_money,
+      use_tech,
+      empl_id,
       emp_content,
       function (err, addEmployment) {
         res.app.render("add_empl_success", function (err, html) {

@@ -11,31 +11,33 @@
         result[i].COM_COUNTRY; var COM_REGION = result[i].COM_REGION; var
         EMP_POSITION = result[i].EMP_POSITION; var EMP_MONEY =
         result[i].EMP_MONEY; var USE_TECH = result[i].USE_TECH; var EMP_CONTENT
-        = result[i].EMP_CONTENT; %>
-        <h2 hidden>채용공고ID : <%=COM_ID%></h2>
-        <li>회사명 : <input type="text" value="<%=COM_NAME%>" disabled /></li>
+        = result[i].EMP_CONTENT; var EMPLOYMENT_ID = result[i].EMPLOYMENT_ID%>
+        <form method="post" action="/employment/updateEmplList/<%=EMPLOYMENT_ID%>">
+        <input type="hidden" name="com_id" value="<%=COM_ID%>"/>
+        <li>회사명 : <input type="text" value="<%=COM_NAME%>" name="com_name"/></li>
         <li>
-          국가 : <input type="text" value="<%=COM_COUNTRY%>" disabled /> / 지역
-          : <input type="text" value="<%=COM_REGION%>" disabled />
+          국가 : <input type="text" value="<%=COM_COUNTRY%>" name="com_country"/> / 지역
+          : <input type="text" value="<%=COM_REGION%>" name="com_region"/>
         </li>
         <li>
-          채용포지션 : <input type="text" value="<%=EMP_POSITION%>" disabled />
+          채용포지션 : <input type="text" value="<%=EMP_POSITION%>" name="emp_position"/>
         </li>
         <li>
-          채용보상금 : <input type="text" value="<%=EMP_MONEY%>" disabled />
+          채용보상금 : <input type="text" value="<%=EMP_MONEY%>" name="emp_money"/>
         </li>
-        <li>사용기술 : <input type="text" value="<%=USE_TECH%>" disabled /></li>
+        <li>사용기술 : <input type="text" value="<%=USE_TECH%>" name="use_tech"/></li>
         <li>
           채용내용 :
-          <textarea cols="50" rows="10" disabled><%=EMP_CONTENT%></textarea>
+          <textarea cols="50" rows="10" name="emp_content"><%=EMP_CONTENT%></textarea>
         </li>
+        <li name="employment_id" value="EMPLOYMENT_ID" type="hidden"></li>
         <% } %>
+        <button type="submit">수정</button>
+        <button type="button" onclick="location.href='/employment/delete_empl_list'">삭제</button>
+        <button type="button" onclick="location.href='/main.html'">홈으로 돌아가기
+        </button>
+      </form>
       </ul>
-    </div>
-    <button type="button" onclick="location.href='/employment/update_empl_list'">수정</button>
-    <button type="button" onclick="location.href='/employment/delete_empl_list'">삭제</button>
-    <button type="button" onclick="location.href='/main.html'">
-      홈으로 돌아가기
-    </button>
+    </div> 
   </body>
 </html>
