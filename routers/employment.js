@@ -234,7 +234,7 @@ router.post("/updateEmplList/:employment_id", (req, res) => {
       empl_id,
       emp_content,
       function (err, addEmployment) {
-        res.app.render("add_empl_success", function (err, html) {
+        res.app.render("update_empl_success", function (err, html) {
           res.end(html);
         });
       }
