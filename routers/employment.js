@@ -175,6 +175,10 @@ var delete_employment = function (empl_id, callback) {
 };
 
 router.get("/employments", (req, res) => {
+  req.session.user = {
+    id: "gina_user",
+    name: "gina",
+  };
   console.log("/process/EmploymentList 호출됨.");
   res.writeHead("200", { "Content-Type": "text/html;charset=utf8" });
   var context, com_id;
