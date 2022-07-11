@@ -152,6 +152,28 @@ var update_employment = function (
   });
 };
 
+var delete_employment = function (empl_id, callback) {
+  console.log("delete_employment 호출됨.");
+  pool.getConnection(function (err, conn) {
+    if (err) {
+      if (conn) {
+        conn.release(); // 반드시 해제해야함.
+      }
+
+      callback(err, null);
+    }
+    console.log("데이터베이스 연결 스레드 아이디 : " + conn.threadId);
+
+    var sql = "DELETE FROM EMPLOYMENT_LIST WHERE EMPLOYMENT_ID = ?";
+    var param = [empl_id];
+
+    conn.query(sql, param, function (err, result) {
+      if (err) throw err;
+      callback(null, result);
+    });
+  });
+};
+
 router.get("/employments", (req, res) => {
   console.log("/process/EmploymentList 호출됨.");
   res.writeHead("200", { "Content-Type": "text/html;charset=utf8" });
@@ -233,12 +255,24 @@ router.post("/updateEmplList/:employment_id", (req, res) => {
       use_tech,
       empl_id,
       emp_content,
-      function (err, addEmployment) {
+      function (err, updateEmployment) {
         res.app.render("update_empl_success", function (err, html) {
           res.end(html);
         });
       }
     );
+  }
+});
+
+router.get("/delete_empl_list/:employment_id", (req, res) => {
+  var empl_id = req.params.employment_id;
+  console.log("delete_empl_list");
+  if (pool) {
+    delete_employment(empl_id, function (err, deleteList) {
+      res.app.render("delete_empl_success", function (err, html) {
+        res.end(html);
+      });
+    });
   }
 });
 
