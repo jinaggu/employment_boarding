@@ -227,7 +227,8 @@ router.post("/addEmploymentList", (req, res) => {
       use_tech,
       emp_content,
       function (err, addEmployment) {
-        res.app.render("add_empl_success", function (err, html) {
+        var context = { result: "채용공고가 추가되었습니다." };
+        res.app.render("empl_success_message", context, function (err, html) {
           res.end(html);
         });
       }
@@ -260,7 +261,8 @@ router.post("/updateEmplList/:employment_id", (req, res) => {
       empl_id,
       emp_content,
       function (err, updateEmployment) {
-        res.app.render("update_empl_success", function (err, html) {
+        var context = { result: "채용공고가 수정되었습니다." };
+        res.app.render("empl_success_message", context, function (err, html) {
           res.end(html);
         });
       }
@@ -273,7 +275,8 @@ router.get("/delete_empl_list/:employment_id", (req, res) => {
   console.log("delete_empl_list");
   if (pool) {
     delete_employment(empl_id, function (err, deleteList) {
-      res.app.render("delete_empl_success", function (err, html) {
+      var context = { result: "채용공고가 삭제되었습니다." };
+      res.app.render("empl_success_message", context, function (err, html) {
         res.end(html);
       });
     });
